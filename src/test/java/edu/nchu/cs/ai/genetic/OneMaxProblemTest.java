@@ -1,7 +1,5 @@
 package edu.nchu.cs.ai.genetic;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -30,36 +28,36 @@ public class OneMaxProblemTest {
 
 	@Test
 	public void test10Bit() {
-		//0.003 seconds
-		String result = OneMaxProblem.findOneMaxValue(10);
+		//0.006 seconds
+		String result = OneMaxProblem.exhaustiveSearch(10);
 		Assert.assertEquals("1111111111", result);
 	}
 
 	@Test
 	public void test20Bit() {
-		//0.008 seconds
-		String result = OneMaxProblem.findOneMaxValue(20);
+		//0.024 seconds
+		String result = OneMaxProblem.exhaustiveSearch(20);
 		Assert.assertEquals("11111111111111111111", result);
 	}
 
 	@Test
 	public void test30Bit() {
-		//1.223 seconds
-		String result = OneMaxProblem.findOneMaxValue(30);
+		//10.006 seconds
+		String result = OneMaxProblem.exhaustiveSearch(30);
 		Assert.assertEquals("111111111111111111111111111111", result);
 	}
-
+	
 	@Test
 	public void test40Bit() {
-		//743.641 seconds
-		String result = OneMaxProblem.findOneMaxValue(40);
+		//13931.293 seconds
+		String result = OneMaxProblem.exhaustiveSearch(40);
 		Assert.assertEquals("1111111111111111111111111111111111111111", result);
 	}
 	
 //	@Test
 	public void test50Bit() {
 		//~= 8 days
-		String result = OneMaxProblem.findOneMaxValue(50);
+		String result = OneMaxProblem.exhaustiveSearch(50);
 		Assert.assertEquals("11111111111111111111111111111111111111111111111111", result);
 	}
 }
