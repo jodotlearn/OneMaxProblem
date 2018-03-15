@@ -6,9 +6,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.nchu.cs.ai.problems.OneMaxProblem;
 import junit.framework.Assert;
 
-public class OneMaxProblemTest {
+public class TestOneMaxProblem {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -47,14 +48,21 @@ public class OneMaxProblemTest {
 		Assert.assertEquals("111111111111111111111111111111", result);
 	}
 	
-	@Test
+//	@Test
 	public void test40Bit() {
 		//13931.293 seconds
 		String result = OneMaxProblem.exhaustiveSearch(40);
 		Assert.assertEquals("1111111111111111111111111111111111111111", result);
 	}
 	
-//	@Test
+	@Test
+	public void test45Bit() {
+		//? seconds
+		String result = OneMaxProblem.exhaustiveSearch(45);
+		Assert.assertEquals("111111111111111111111111111111111111111111111", result);
+	}
+	
+	@Test
 	public void test50Bit() {
 		//~= 8 days
 		String result = OneMaxProblem.exhaustiveSearch(50);

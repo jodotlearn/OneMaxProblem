@@ -1,9 +1,21 @@
-package edu.nchu.cs.ai.genetic;
-
-import java.math.BigInteger;
-import org.apache.commons.lang3.ArrayUtils;
+package edu.nchu.cs.ai.problems;
 
 public class OneMaxProblem {
+	public static void main(String[] args) {
+		if (args.length == 0) {
+			System.out.println("missing arguments: bit count");
+			return;
+		}
+		try {
+			int bitCnt = Integer.valueOf(args[0]);
+			exhaustiveSearch(Integer.valueOf(args[0]));
+		}catch(NumberFormatException e) {
+			System.out.println("bit count must be integer");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static String exhaustiveSearch(int bitCnt) {
 		System.out.println("prepare to execute " + bitCnt + " bit");
 		long startTime = System.currentTimeMillis();
@@ -28,8 +40,7 @@ public class OneMaxProblem {
 			//4.determination
 			if (cnt > maxCount) {
 				maxCount = cnt;
-//				System.arraycopy(binaryArray, 0, keep, 0, binaryArray.length);
-				keep = ArrayUtils.clone(binaryArray);
+				System.arraycopy(binaryArray, 0, keep, 0, binaryArray.length);
 			}
 			startValue++;
 		}
@@ -40,14 +51,14 @@ public class OneMaxProblem {
 			buf.append(keep[i]);
 		}
 		maxBinaryString = buf.toString();
-		System.out.println("The one-max objective value of " + bitCnt + " bit is:");
-		System.out.println(maxBinaryString);
-		System.out.println("spent " + ((double) (System.currentTimeMillis()-startTime))/1000 + " seconds");
+		System.out.println("  The one-max objective value of " + bitCnt + " bit is:");
+		System.out.println("  " + maxBinaryString);
+		System.out.println("  spent " + ((double) (System.currentTimeMillis()-startTime))/1000 + " seconds");
+		System.out.println();
 		return maxBinaryString;
 	}
 	
 	private static int[] transition(int[] currentValue) {
-		int[] tmp = currentValue;
 		for (int i=currentValue.length-1;i>=0;i--) {
 			if (currentValue[i] == 0) {
 				currentValue[i] = 1;
