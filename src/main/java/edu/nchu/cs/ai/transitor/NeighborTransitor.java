@@ -1,10 +1,9 @@
 package edu.nchu.cs.ai.transitor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Random Neighbor Transitor
@@ -18,7 +17,7 @@ public class NeighborTransitor implements Transitor{
 	private int neighborCount;
 	private int transitTimes;
 	public NeighborTransitor(int bitCount, int[] currentArray, int neighborCount) {
-		this.currentArray = ArrayUtils.clone(currentArray);
+		this.currentArray = Arrays.copyOf(currentArray, currentArray.length);
 		this.bitCount = bitCount;
 		this.neighborCount = neighborCount==-1?bitCount:neighborCount;
 	}
@@ -30,7 +29,7 @@ public class NeighborTransitor implements Transitor{
 		List<Integer> pos = new ArrayList<>();
 		List<int[]> neighbors = new ArrayList<>();
 		for (int i=0;i<this.neighborCount;i++) {
-			int[] tempArray = ArrayUtils.clone(this.currentArray);
+			int[] tempArray = Arrays.copyOf(this.currentArray, this.currentArray.length);
 			Random rnd = new Random();
 			int idx = rnd.nextInt(this.bitCount);
 			while(pos.contains(idx)) {
@@ -48,7 +47,8 @@ public class NeighborTransitor implements Transitor{
 			}
 		}
 		if (keepIdx >= 0) {
-			this.currentArray = ArrayUtils.clone(neighbors.get(keepIdx));
+			int [] keepArray = neighbors.get(keepIdx);
+			this.currentArray = Arrays.copyOf(keepArray, keepArray.length);
 		}
 		return this.currentArray;
 	}

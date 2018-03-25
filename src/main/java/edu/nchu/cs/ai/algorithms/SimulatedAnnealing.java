@@ -1,10 +1,9 @@
 package edu.nchu.cs.ai.algorithms;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import edn.nchu.cs.utils.StringUtil;
 import edu.nchu.cs.ai.evaluator.BinaryBitEvaluator;
@@ -31,7 +30,7 @@ public class SimulatedAnnealing implements SearchOptimization{
 	@Override
 	public OptimumSolution run() {
 		int objValue = 0;
-		List<Integer> detail = new ArrayList<>();
+		List<Integer> detail = new ArrayList<Integer>();
 		double tempture = 10.0;
 		double delta = 0.99;
 		double minTempture = 0.0001;
@@ -47,14 +46,13 @@ public class SimulatedAnnealing implements SearchOptimization{
 			//4. determination
 			if (objValue > this.maxCount) {
 				this.maxCount = objValue;
-				this.bitArray = ArrayUtils.clone(this.localOptimum);
+				this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
 			}else {
 				p = Math.exp((objValue-this.maxCount)/tempture);
 				cp = new Random().nextDouble();
-//				System.out.println("objValue=" + objValue + ",max="+ this.maxCount +",p="+p +",cp="+cp+",result="+(p>cp));
 				if (cp < p) {
 					this.maxCount = objValue;
-					this.bitArray = ArrayUtils.clone(this.localOptimum);
+					this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
 				}
 			}
 			tempture *= delta;
@@ -64,7 +62,7 @@ public class SimulatedAnnealing implements SearchOptimization{
 				break;
 			}
 		}
-		OptimumSolution os = new OptimumSolution<>();
+		OptimumSolution os = new OptimumSolution<Object, Object, Object>();
 		os.setSolution(StringUtil.toString(this.bitArray));
 		os.setObjectiveValue(this.maxCount);
 		os.setExecuteDetail(detail);

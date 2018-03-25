@@ -21,14 +21,9 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.7</version>
-		</dependency>
 	</dependencies>
 	<build>
-		<finalName>ai</finalName>
+		<finalName>onemax</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -37,7 +32,7 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>edu.nchu.cs.ai.problems.OneMaxProblem</mainClass>
+								<mainClass>edu.nchu.cs.ai.OneMaxProblem</mainClass>
 							</manifest>
 						</archive>
 					</configuration>

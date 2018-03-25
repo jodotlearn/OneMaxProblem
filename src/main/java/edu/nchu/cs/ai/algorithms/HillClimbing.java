@@ -1,10 +1,9 @@
 package edu.nchu.cs.ai.algorithms;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import edn.nchu.cs.utils.StringUtil;
 import edu.nchu.cs.ai.evaluator.BinaryBitEvaluator;
@@ -47,7 +46,7 @@ public class HillClimbing implements SearchOptimization{
 			if (objValue > this.maxCount) {
 				foundBetterSolution = true;
 				this.maxCount = objValue;
-				this.bitArray = ArrayUtils.clone(this.localOptimum);
+				this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
 			}
 			detail.add(this.maxCount);
 			this.transitTimes--;
