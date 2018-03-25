@@ -1,29 +1,31 @@
 package edu.nchu.cs.ai.transitor;
 
-public class BinaryBitTransitor {
+public class BinaryBitTransitor implements Transitor{
 	private long maxCount;
 	private long current;
 	private int[] bitArray;
 	public BinaryBitTransitor(int bitCount){
-		maxCount = 1 << bitCount;
-		current = 1;
-		bitArray = new int[bitCount];
+		this.maxCount = 1 << bitCount;
+		this.current = 1;
+		this.bitArray = new int[bitCount];
 	}
-	
+
+	@Override
 	public int[] transit() {
-		for (int i=bitArray.length-1;i>=0;i--) {
-			if (bitArray[i] == 0) {
-				bitArray[i] = 1;
-				current++;
-				return bitArray;
+		for (int i=this.bitArray.length-1;i>=0;i--) {
+			if (this.bitArray[i] == 0) {
+				this.bitArray[i] = 1;
+				this.current++;
+				return this.bitArray;
 			}
-			bitArray[i] = 0;
+			this.bitArray[i] = 0;
 		}
-		current++;
-		return bitArray;
+		this.current++;
+		return this.bitArray;
 	}
-	
+
+	@Override
 	public boolean hasNext() {
-		return current < maxCount;
+		return this.current < this.maxCount;
 	}
 }

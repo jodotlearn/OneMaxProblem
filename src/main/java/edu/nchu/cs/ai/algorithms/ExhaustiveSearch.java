@@ -1,52 +1,49 @@
 package edu.nchu.cs.ai.algorithms;
 
+import edn.nchu.cs.utils.StringUtil;
 import edu.nchu.cs.ai.evaluator.BinaryBitEvaluator;
 import edu.nchu.cs.ai.transitor.BinaryBitTransitor;
 
-public class ExhaustiveSearch{
+public class ExhaustiveSearch implements SearchOptimization{
 	private BinaryBitTransitor transitor;
 	private BinaryBitEvaluator evaluator;
-	public OptimumSolution run(int runCount, int bitCount) {
-		int cnt = 0;
+	private int bitCount;
+	private ExhaustiveSearch() {
+		//not allow initialize a constructor without arguments
+	}
+	public ExhaustiveSearch(int bitCount) {
+		this.bitCount = bitCount;
+	}
+	@Override
+	public OptimumSolution run() {
 		int objValue = 0;
 		int maxValue = -1;
 		int[] bitArray;
 		int[] keepValue;
-		long startTime = 0;
-		while (cnt < runCount) {
-			System.out.println("prepare to execute " + bitCount + " bit");
-			startTime = System.currentTimeMillis();
-			bitArray = new int[bitCount];
-			keepValue = new int[bitCount];
-			objValue = 0;
-			maxValue = -1;
-			//1. initialization
-			init(bitCount);
-			while (transitor.hasNext()) {
-				//2. transition
-				bitArray = transitor.transit();
-				//3. evaluation
-				objValue = evaluator.evaluate(bitArray);
-				//4. determination
-				if (objValue > maxValue) {
-					maxValue = objValue;
-					System.arraycopy(bitArray, 0, keepValue, 0, bitArray.length);
-				}
+		bitArray = new int[this.bitCount];
+		keepValue = new int[this.bitCount];
+		objValue = 0;
+		maxValue = -1;
+		//1. initialization
+		this.init(this.bitCount);
+		while (this.transitor.hasNext()) {
+			//2. transition
+			bitArray = this.transitor.transit();
+			//3. evaluation
+			objValue = this.evaluator.evaluate(bitArray);
+			//4. determination
+			if (objValue > maxValue) {
+				maxValue = objValue;
+				System.arraycopy(bitArray, 0, keepValue, 0, bitArray.length);
 			}
-			StringBuilder buf = new StringBuilder();
-			for (int i = 0; i < keepValue.length; i++) {
-				buf.append(keepValue[i]);
-			}
-			System.out.println("  The one-max objective value of " + bitCount + " bit is:");
-			System.out.println("  " + buf.toString());
-			System.out.println("  spent " + ((double) (System.currentTimeMillis()-startTime))/1000 + " seconds");
-			System.out.println();
-			cnt++;
 		}
-		return null;
+		OptimumSolution os = new OptimumSolution<>();
+		os.setSolution(StringUtil.toString(bitArray));
+		os.setObjectiveValue(maxValue);
+		return os;
 	}
 	private void init(int bitCount) {
-		transitor = new BinaryBitTransitor(bitCount);
-		evaluator = new BinaryBitEvaluator();
+		this.transitor = new BinaryBitTransitor(bitCount);
+		this.evaluator = new BinaryBitEvaluator();
 	}
 }

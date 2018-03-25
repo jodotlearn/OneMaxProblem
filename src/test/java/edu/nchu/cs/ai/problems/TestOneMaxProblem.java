@@ -1,14 +1,17 @@
 package edu.nchu.cs.ai.problems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.nchu.cs.ai.algorithms.ExhaustiveSearch;
-import edu.nchu.cs.ai.problems.OneMaxProblem;
-import junit.framework.Assert;
+import edu.nchu.cs.ai.algorithms.HillClimbing;
+import edu.nchu.cs.ai.algorithms.OptimumSolution;
+import edu.nchu.cs.ai.algorithms.SimulatedAnnealing;
 
 public class TestOneMaxProblem {
 
@@ -29,45 +32,43 @@ public class TestOneMaxProblem {
 	}
 
 	@Test
-	public void test10Bit() {
-		//0.006 seconds
-		new ExhaustiveSearch().run(1, 10);
-//		String result = OneMaxProblem.exhaustiveSearch(10);
-//		Assert.assertEquals("1111111111", result);
+	public void testHC() {
+		int runTimes = 30;
+		List<List<Integer>> totalDetail = new ArrayList<>();
+		for (int i=0;i<runTimes;i++) {
+			HillClimbing hc = new HillClimbing(100, 10, 500);
+			OptimumSolution os = hc.run();
+			totalDetail.add((List<Integer>)os.getExecuteDetail());
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int i=0;i<totalDetail.get(0).size();i++) {
+			for (int j=0;j<totalDetail.size();j++) {
+				List<Integer> data = totalDetail.get(j);
+				if (data.size() >= i+1) {
+					sb.append(data.get(i)).append("\t");
+				}
+			}
+			sb.append("\r\n");
+		}
+		System.out.println(sb.toString());
 	}
 
 //	@Test
-	public void test20Bit() {
-		//0.024 seconds
-		String result = OneMaxProblem.exhaustiveSearch(20);
-		Assert.assertEquals("11111111111111111111", result);
-	}
-
-//	@Test
-	public void test30Bit() {
-		//10.006 seconds
-		String result = OneMaxProblem.exhaustiveSearch(30);
-		Assert.assertEquals("111111111111111111111111111111", result);
-	}
-	
-//	@Test
-	public void test40Bit() {
-		//13931.293 seconds
-		String result = OneMaxProblem.exhaustiveSearch(40);
-		Assert.assertEquals("1111111111111111111111111111111111111111", result);
-	}
-	
-//	@Test
-	public void test45Bit() {
-		//? seconds
-		String result = OneMaxProblem.exhaustiveSearch(45);
-		Assert.assertEquals("111111111111111111111111111111111111111111111", result);
-	}
-	
-//	@Test
-	public void test50Bit() {
-		//~= 8 days
-		String result = OneMaxProblem.exhaustiveSearch(50);
-		Assert.assertEquals("11111111111111111111111111111111111111111111111111", result);
+	public void testSA() {
+		int runTimes = 30;
+		List<List<Integer>> totalDetail = new ArrayList<>();
+		for (int i=0;i<runTimes;i++) {
+			SimulatedAnnealing sa = new SimulatedAnnealing(100,10,500);
+			OptimumSolution os = sa.run();
+			totalDetail.add((List<Integer>)os.getExecuteDetail());
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int i=0;i<totalDetail.get(0).size();i++) {
+			for (int j=0;j<totalDetail.size();j++) {
+				sb.append(totalDetail.get(j).get(i)).append("\t");
+			}
+			sb.append("\r\n");
+		}
+		System.out.println(sb.toString());
 	}
 }

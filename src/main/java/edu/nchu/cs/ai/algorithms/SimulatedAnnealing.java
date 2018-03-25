@@ -10,7 +10,7 @@ import edn.nchu.cs.utils.StringUtil;
 import edu.nchu.cs.ai.evaluator.BinaryBitEvaluator;
 import edu.nchu.cs.ai.transitor.NeighborTransitor;
 
-public class HillClimbing implements SearchOptimization{
+public class SimulatedAnnealing implements SearchOptimization{
 	private int[] bitArray;
 	private NeighborTransitor transitor;
 	private BinaryBitEvaluator evaluator;
@@ -20,37 +20,49 @@ public class HillClimbing implements SearchOptimization{
 	private int neighborLimit;
 	private int transitTimes;
 
-	private HillClimbing() {
+	private SimulatedAnnealing() {
 		//not allow initialize a constructor without arguments
 	}
-	public HillClimbing(int bitCount, int neighborLimit, int transitTimes) {
+	public SimulatedAnnealing(int bitCount, int neighborLimit, int transitTimes) {
 		this.bitCount = bitCount;
 		this.neighborLimit = neighborLimit;
-		this.transitTimes = transitTimes<0?bitCount:transitTimes;
+		this.transitTimes = transitTimes;
 	}
-
 	@Override
 	public OptimumSolution run() {
-		List<Integer> detail = new ArrayList<>();
 		int objValue = 0;
-		boolean foundBetterSolution = false;
-		//1. initialize
+		List<Integer> detail = new ArrayList<>();
+		double tempture = 10.0;
+		double delta = 0.99;
+		double minTempture = 0.0001;
+		double p = 0.0;
+		double cp = 0.0;
+		//1. initialization
 		this.init(this.bitCount, this.neighborLimit);
-
-		while(objValue==0 || foundBetterSolution) {
-			foundBetterSolution = false;
+		while (this.transitor.hasNext()) {
 			//2. transition
 			this.localOptimum = this.transitor.transit();
 			//3. evaluation
 			objValue = this.evaluator.evaluate(this.localOptimum);
 			//4. determination
 			if (objValue > this.maxCount) {
-				foundBetterSolution = true;
 				this.maxCount = objValue;
 				this.bitArray = ArrayUtils.clone(this.localOptimum);
+			}else {
+				p = Math.exp((objValue-this.maxCount)/tempture);
+				cp = new Random().nextDouble();
+//				System.out.println("objValue=" + objValue + ",max="+ this.maxCount +",p="+p +",cp="+cp+",result="+(p>cp));
+				if (cp < p) {
+					this.maxCount = objValue;
+					this.bitArray = ArrayUtils.clone(this.localOptimum);
+				}
 			}
+			tempture *= delta;
 			detail.add(this.maxCount);
 			this.transitTimes--;
+			if (tempture < minTempture || this.transitTimes == 0) {
+				break;
+			}
 		}
 		OptimumSolution os = new OptimumSolution<>();
 		os.setSolution(StringUtil.toString(this.bitArray));
