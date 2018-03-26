@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Jo
  *
  */
-public class NeighborTransitor implements Transitor{
+public class NeighborTransitor<T> implements Transitor{
 	private int[] currentArray;
 	private int bitCount;
 	private int neighborCount;
@@ -21,6 +21,12 @@ public class NeighborTransitor implements Transitor{
 		this.bitCount = bitCount;
 		this.neighborCount = neighborCount==-1?bitCount:neighborCount;
 	}
+
+	@Override
+	public void setCurrent(int[] current) {
+		this.currentArray = Arrays.copyOf(current, current.length);
+	}
+
 	@Override
 	public int[] transit(){
 		int localOptimum = 0;
@@ -65,4 +71,6 @@ public class NeighborTransitor implements Transitor{
 		}
 		return val;
 	}
+
+
 }

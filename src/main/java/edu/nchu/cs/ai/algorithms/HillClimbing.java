@@ -48,8 +48,35 @@ public class HillClimbing implements SearchOptimization{
 				this.maxCount = objValue;
 				this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
 			}
+			this.transitor.setCurrent(this.bitArray);
 			detail.add(this.maxCount);
-			this.transitTimes--;
+			/*
+			 * way 1: re-find the other n neighbors if cannot find better solution from the n neighbors
+			 */
+			if (this.transitTimes >= 0) {
+				this.transitTimes--;
+				if (!foundBetterSolution && this.transitTimes >=0) {
+					foundBetterSolution = true; //trick
+				}
+				if (this.transitTimes < 0) {
+					break;
+				}
+			}
+			/*
+			 * way 2: stop searching if cannot find better solution from the n neighbors
+			if (this.transitTimes >= 0) {
+				if (!foundBetterSolution) {
+					while(this.transitTimes>=0) {
+						detail.add(this.maxCount);
+						this.transitTimes--;
+					}
+				}
+				this.transitTimes--;
+				if (this.transitTimes < 0) {
+					break;
+				}
+			}
+			 */
 		}
 		OptimumSolution os = new OptimumSolution<>();
 		os.setSolution(StringUtil.toString(this.bitArray));

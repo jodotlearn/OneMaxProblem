@@ -11,6 +11,11 @@ public class BinaryBitTransitor implements Transitor{
 	}
 
 	@Override
+	public void setCurrent(int[] current) {
+		//do nothing
+	}
+
+	@Override
 	public int[] transit() {
 		for (int i=this.bitArray.length-1;i>=0;i--) {
 			if (this.bitArray[i] == 0) {

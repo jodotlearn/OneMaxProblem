@@ -36,28 +36,47 @@ public class SimulatedAnnealing implements SearchOptimization{
 		double minTempture = 0.0001;
 		double p = 0.0;
 		double cp = 0.0;
+		boolean isAccept = true;
 		//1. initialization
 		this.init(this.bitCount, this.neighborLimit);
 		while (this.transitor.hasNext()) {
 			//2. transition
+			/*
+			 * way 1: re-find the other n neighbors if cannot find better solution from the n neighbors
+			 */
 			this.localOptimum = this.transitor.transit();
+			/*
+			 * way 2: stop searching if cannot find better solution from the n neighbors
+			if (isAccept) {
+				this.localOptimum = this.transitor.transit();
+			}
+			 */
 			//3. evaluation
 			objValue = this.evaluator.evaluate(this.localOptimum);
 			//4. determination
 			if (objValue > this.maxCount) {
+				isAccept = true;
 				this.maxCount = objValue;
 				this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
 			}else {
 				p = Math.exp((objValue-this.maxCount)/tempture);
 				cp = new Random().nextDouble();
 				if (cp < p) {
+					isAccept = true;
 					this.maxCount = objValue;
 					this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
 				}
+				/*
+				 * way 2: stop searching if cannot find better solution from the n neighbors
+				else {
+					isAccept = false;
+				}
+				*/
 			}
-			tempture *= delta;
+			this.transitor.setCurrent(this.bitArray);
 			detail.add(this.maxCount);
 			this.transitTimes--;
+			tempture *= delta;
 			if (tempture < minTempture || this.transitTimes == 0) {
 				break;
 			}

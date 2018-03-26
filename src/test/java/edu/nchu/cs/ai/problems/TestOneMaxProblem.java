@@ -31,7 +31,7 @@ public class TestOneMaxProblem {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+//	@Test
 	public void testHC() {
 		int runTimes = 30;
 		List<List<Integer>> totalDetail = new ArrayList<>();
@@ -43,17 +43,14 @@ public class TestOneMaxProblem {
 		StringBuilder sb = new StringBuilder();
 		for (int i=0;i<totalDetail.get(0).size();i++) {
 			for (int j=0;j<totalDetail.size();j++) {
-				List<Integer> data = totalDetail.get(j);
-				if (data.size() >= i+1) {
-					sb.append(data.get(i)).append("\t");
-				}
+				sb.append(totalDetail.get(j).get(i)).append("\t");
 			}
 			sb.append("\r\n");
 		}
 		System.out.println(sb.toString());
 	}
 
-//	@Test
+	@Test
 	public void testSA() {
 		int runTimes = 30;
 		List<List<Integer>> totalDetail = new ArrayList<>();
