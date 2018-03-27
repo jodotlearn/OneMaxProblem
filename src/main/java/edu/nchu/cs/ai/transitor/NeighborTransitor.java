@@ -1,25 +1,21 @@
 package edu.nchu.cs.ai.transitor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /**
  * Random Neighbor Transitor
- * generate neighbors randomly and choose the neighbor that has the best objective value.
+ * generate a neighbor of the current solution randomly.
  * @author Jo
  *
  */
 public class NeighborTransitor<T> implements Transitor{
 	private int[] currentArray;
 	private int bitCount;
-	private int neighborCount;
 	private int transitTimes;
-	public NeighborTransitor(int bitCount, int[] currentArray, int neighborCount) {
+	public NeighborTransitor(int bitCount, int[] currentArray) {
 		this.currentArray = Arrays.copyOf(currentArray, currentArray.length);
 		this.bitCount = bitCount;
-		this.neighborCount = neighborCount==-1?bitCount:neighborCount;
 	}
 
 	@Override
@@ -29,33 +25,32 @@ public class NeighborTransitor<T> implements Transitor{
 
 	@Override
 	public int[] transit(){
-		int localOptimum = 0;
-		int objValue = 0;
-		int keepIdx = -1;
-		List<Integer> pos = new ArrayList<>();
-		List<int[]> neighbors = new ArrayList<>();
-		for (int i=0;i<this.neighborCount;i++) {
-			int[] tempArray = Arrays.copyOf(this.currentArray, this.currentArray.length);
-			Random rnd = new Random();
-			int idx = rnd.nextInt(this.bitCount);
-			while(pos.contains(idx)) {
-				idx = rnd.nextInt(this.bitCount);
-			}
-			tempArray[idx] = tempArray[idx]^1;//0^1=1, 1^1=0
-			pos.add(idx);
-			neighbors.add(tempArray);
-		}
-		for (int i=0;i<neighbors.size();i++) {
-			objValue = this.eval(neighbors.get(i));
-			if (objValue > localOptimum) {
-				localOptimum = objValue;
-				keepIdx = i;
-			}
-		}
-		if (keepIdx >= 0) {
-			int [] keepArray = neighbors.get(keepIdx);
-			this.currentArray = Arrays.copyOf(keepArray, keepArray.length);
-		}
+//		int localOptimum = 0;
+//		int objValue = 0;
+//		int keepIdx = -1;
+//		List<Integer> pos = new ArrayList<>();
+//		List<int[]> neighbors = new ArrayList<>();
+//		for (int i=0;i<this.bitCount;i++) {
+		int[] tempArray = Arrays.copyOf(this.currentArray, this.currentArray.length);
+		Random rnd = new Random();
+		int idx = rnd.nextInt(this.bitCount);
+		tempArray[idx] = tempArray[idx]^1;//0^1=1, 1^1=0
+//			pos.add(idx);
+//			neighbors.add(tempArray);
+//		}
+//
+//		for (int i=0;i<neighbors.size();i++) {
+//			objValue = this.eval(neighbors.get(i));
+//			if (objValue > localOptimum) {
+//				localOptimum = objValue;
+//				keepIdx = i;
+//			}
+//		}
+//		if (keepIdx >= 0) {
+//			int [] keepArray = neighbors.get(keepIdx);
+//			this.currentArray = Arrays.copyOf(keepArray, keepArray.length);
+//		}
+		this.currentArray = Arrays.copyOf(tempArray, tempArray.length);
 		return this.currentArray;
 	}
 

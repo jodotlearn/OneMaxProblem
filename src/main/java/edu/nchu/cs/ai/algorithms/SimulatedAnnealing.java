@@ -13,71 +13,51 @@ public class SimulatedAnnealing implements SearchOptimization{
 	private int[] bitArray;
 	private NeighborTransitor transitor;
 	private BinaryBitEvaluator evaluator;
-	private int[] localOptimum;
+	private int[] neighbor;
 	private int maxCount = -1;
 	private int bitCount;
-	private int neighborLimit;
 	private int transitTimes;
 
 	private SimulatedAnnealing() {
 		//not allow initialize a constructor without arguments
 	}
-	public SimulatedAnnealing(int bitCount, int neighborLimit, int transitTimes) {
+	public SimulatedAnnealing(int bitCount, int transitTimes) {
 		this.bitCount = bitCount;
-		this.neighborLimit = neighborLimit;
 		this.transitTimes = transitTimes;
 	}
 	@Override
 	public OptimumSolution run() {
 		int objValue = 0;
 		List<Integer> detail = new ArrayList<Integer>();
-		double tempture = 10.0;
+		double tempture = 1.0;
 		double delta = 0.99;
 		double minTempture = 0.0001;
 		double p = 0.0;
 		double cp = 0.0;
-		boolean isAccept = true;
 		//1. initialization
-		this.init(this.bitCount, this.neighborLimit);
+		this.init(this.bitCount);
 		while (this.transitor.hasNext()) {
 			//2. transition
-			/*
-			 * way 1: re-find the other n neighbors if cannot find better solution from the n neighbors
-			 */
-			this.localOptimum = this.transitor.transit();
-			/*
-			 * way 2: stop searching if cannot find better solution from the n neighbors
-			if (isAccept) {
-				this.localOptimum = this.transitor.transit();
-			}
-			 */
+			this.neighbor = this.transitor.transit();
 			//3. evaluation
-			objValue = this.evaluator.evaluate(this.localOptimum);
+			objValue = this.evaluator.evaluate(this.neighbor);
 			//4. determination
 			if (objValue > this.maxCount) {
-				isAccept = true;
 				this.maxCount = objValue;
-				this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
+				this.bitArray = Arrays.copyOf(this.neighbor, this.neighbor.length);
 			}else {
 				p = Math.exp((objValue-this.maxCount)/tempture);
 				cp = new Random().nextDouble();
 				if (cp < p) {
-					isAccept = true;
 					this.maxCount = objValue;
-					this.bitArray = Arrays.copyOf(this.localOptimum, this.localOptimum.length);
+					this.bitArray = Arrays.copyOf(this.neighbor, this.neighbor.length);
 				}
-				/*
-				 * way 2: stop searching if cannot find better solution from the n neighbors
-				else {
-					isAccept = false;
-				}
-				*/
 			}
 			this.transitor.setCurrent(this.bitArray);
 			detail.add(this.maxCount);
 			this.transitTimes--;
 			tempture *= delta;
-			if (tempture < minTempture || this.transitTimes == 0) {
+			if (tempture < minTempture || this.transitTimes < 0) {
 				break;
 			}
 		}
@@ -88,17 +68,17 @@ public class SimulatedAnnealing implements SearchOptimization{
 		return os;
 	}
 
-	private void init(int bitCount, int neighborLimit) {
+	private void init(int bitCount) {
 		this.bitArray = new int[bitCount];
-		this.localOptimum = new int[bitCount];
-		Random rnd = new Random();
+		this.neighbor = new int[bitCount];
 		int cnt = 0;
 		for (int i=0;i<this.bitArray.length;i++) {
+			Random rnd = new Random();
 			this.bitArray[i] = rnd.nextInt(2);
 			cnt+=this.bitArray[i];
 		}
 		this.maxCount = cnt;
-		this.transitor = new NeighborTransitor(bitCount, this.bitArray, neighborLimit);
+		this.transitor = new NeighborTransitor(bitCount, this.bitArray);
 		this.evaluator = new BinaryBitEvaluator();
 	}
 }

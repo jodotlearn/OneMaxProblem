@@ -36,7 +36,7 @@ public class TestOneMaxProblem {
 		int runTimes = 30;
 		List<List<Integer>> totalDetail = new ArrayList<>();
 		for (int i=0;i<runTimes;i++) {
-			HillClimbing hc = new HillClimbing(100, 10, 500);
+			HillClimbing hc = new HillClimbing(100, 500);
 			OptimumSolution os = hc.run();
 			totalDetail.add((List<Integer>)os.getExecuteDetail());
 		}
@@ -55,7 +55,7 @@ public class TestOneMaxProblem {
 		int runTimes = 30;
 		List<List<Integer>> totalDetail = new ArrayList<>();
 		for (int i=0;i<runTimes;i++) {
-			SimulatedAnnealing sa = new SimulatedAnnealing(100,10,500);
+			SimulatedAnnealing sa = new SimulatedAnnealing(100,500);
 			OptimumSolution os = sa.run();
 			totalDetail.add((List<Integer>)os.getExecuteDetail());
 		}

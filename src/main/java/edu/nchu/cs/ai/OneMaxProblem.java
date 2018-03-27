@@ -15,9 +15,8 @@ public class OneMaxProblem {
 		int bitCount = Integer.valueOf(args[1]);
 		int neighborLimit = -1;
 		int transitTimes =  -1;
-		if (args.length ==4) {
-			neighborLimit = Integer.valueOf(args[2]);
-			transitTimes = Integer.valueOf(args[3]);
+		if (args.length ==3) {
+			transitTimes = Integer.valueOf(args[2]);
 		}
 
 		switch(algorithm) {
@@ -25,10 +24,10 @@ public class OneMaxProblem {
 			so = new ExhaustiveSearch(bitCount);
 			break;
 		case "HC":
-			so = new HillClimbing(bitCount, neighborLimit, transitTimes);
+			so = new HillClimbing(bitCount, transitTimes);
 			break;
 		case "SA":
-			so = new SimulatedAnnealing(bitCount, neighborLimit, transitTimes);
+			so = new SimulatedAnnealing(bitCount, transitTimes);
 			break;
 		default:
 			System.out.println("You must specify an algorithm.");
