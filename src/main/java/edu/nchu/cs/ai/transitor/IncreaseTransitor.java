@@ -1,10 +1,16 @@
 package edu.nchu.cs.ai.transitor;
 
-public class BinaryBitTransitor implements Transitor{
+/**
+ * BinaryBitTransitor
+ * generate a next solution
+ * @author Jo
+ *
+ */
+public class IncreaseTransitor implements Transitor<int[]>{
 	private long maxCount;
 	private long current;
 	private int[] bitArray;
-	public BinaryBitTransitor(int bitCount){
+	public IncreaseTransitor(int bitCount){
 		this.maxCount = 1 << bitCount;
 		this.current = 1;
 		this.bitArray = new int[bitCount];

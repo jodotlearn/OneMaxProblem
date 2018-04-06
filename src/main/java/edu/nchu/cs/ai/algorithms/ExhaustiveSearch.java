@@ -2,10 +2,10 @@ package edu.nchu.cs.ai.algorithms;
 
 import edn.nchu.cs.utils.StringUtil;
 import edu.nchu.cs.ai.evaluator.BinaryBitEvaluator;
-import edu.nchu.cs.ai.transitor.BinaryBitTransitor;
+import edu.nchu.cs.ai.transitor.IncreaseTransitor;
 
 public class ExhaustiveSearch implements SearchOptimization{
-	private BinaryBitTransitor transitor;
+	private IncreaseTransitor transitor;
 	private BinaryBitEvaluator evaluator;
 	private int bitCount;
 	private ExhaustiveSearch() {
@@ -43,7 +43,7 @@ public class ExhaustiveSearch implements SearchOptimization{
 		return os;
 	}
 	private void init(int bitCount) {
-		this.transitor = new BinaryBitTransitor(bitCount);
+		this.transitor = new IncreaseTransitor(bitCount);
 		this.evaluator = new BinaryBitEvaluator();
 	}
 }

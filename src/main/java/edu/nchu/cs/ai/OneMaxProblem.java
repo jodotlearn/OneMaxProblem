@@ -1,9 +1,11 @@
 package edu.nchu.cs.ai;
 
 import edu.nchu.cs.ai.algorithms.ExhaustiveSearch;
+import edu.nchu.cs.ai.algorithms.Genetic;
 import edu.nchu.cs.ai.algorithms.HillClimbing;
 import edu.nchu.cs.ai.algorithms.OptimumSolution;
 import edu.nchu.cs.ai.algorithms.SearchOptimization;
+import edu.nchu.cs.ai.algorithms.SelectionType;
 import edu.nchu.cs.ai.algorithms.SimulatedAnnealing;
 
 public class OneMaxProblem {
@@ -13,11 +15,7 @@ public class OneMaxProblem {
 		SearchOptimization so = null;
 		long startTime = System.currentTimeMillis();
 		int bitCount = Integer.valueOf(args[1]);
-		int neighborLimit = -1;
-		int transitTimes =  -1;
-		if (args.length ==3) {
-			transitTimes = Integer.valueOf(args[2]);
-		}
+		int transitTimes = Integer.valueOf(args[2]);
 
 		switch(algorithm) {
 		case "ES":
@@ -28,6 +26,23 @@ public class OneMaxProblem {
 			break;
 		case "SA":
 			so = new SimulatedAnnealing(bitCount, transitTimes);
+			break;
+		case "GA":
+			//select type: ROULETTEWHEEL, TOURNAMENT
+			int populationSize = Integer.valueOf(args[3]);
+			SelectionType type;
+			double allowCrossoverRate;
+			double allowMutationRate;
+			try {
+				type = SelectionType.valueOf(args[4].toUpperCase());
+				allowCrossoverRate = Double.valueOf(args[5]);
+				allowMutationRate = Double.valueOf(args[6]);
+			}catch(Exception e) {
+				type = SelectionType.TOURNAMENT;
+				allowCrossoverRate = 0.6;
+				allowMutationRate = 0.1;
+			}
+			so = new Genetic(bitCount, transitTimes, populationSize, type, allowCrossoverRate, allowMutationRate);
 			break;
 		default:
 			System.out.println("You must specify an algorithm.");

@@ -7,11 +7,11 @@ import java.util.Random;
 
 import edn.nchu.cs.utils.StringUtil;
 import edu.nchu.cs.ai.evaluator.BinaryBitEvaluator;
-import edu.nchu.cs.ai.transitor.NeighborTransitor;
+import edu.nchu.cs.ai.transitor.RandomNeighborTransitor;
 
 public class SimulatedAnnealing implements SearchOptimization{
 	private int[] bitArray;
-	private NeighborTransitor transitor;
+	private RandomNeighborTransitor transitor;
 	private BinaryBitEvaluator evaluator;
 	private int[] neighbor;
 	private int maxCount = -1;
@@ -78,7 +78,7 @@ public class SimulatedAnnealing implements SearchOptimization{
 			cnt+=this.bitArray[i];
 		}
 		this.maxCount = cnt;
-		this.transitor = new NeighborTransitor(bitCount, this.bitArray);
+		this.transitor = new RandomNeighborTransitor(bitCount, this.bitArray);
 		this.evaluator = new BinaryBitEvaluator();
 	}
 }

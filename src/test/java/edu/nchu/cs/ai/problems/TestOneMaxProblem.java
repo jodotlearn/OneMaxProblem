@@ -9,8 +9,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.nchu.cs.ai.algorithms.Genetic;
 import edu.nchu.cs.ai.algorithms.HillClimbing;
 import edu.nchu.cs.ai.algorithms.OptimumSolution;
+import edu.nchu.cs.ai.algorithms.SelectionType;
 import edu.nchu.cs.ai.algorithms.SimulatedAnnealing;
 
 public class TestOneMaxProblem {
@@ -50,7 +52,7 @@ public class TestOneMaxProblem {
 		System.out.println(sb.toString());
 	}
 
-	@Test
+//	@Test
 	public void testSA() {
 		int runTimes = 30;
 		List<List<Integer>> totalDetail = new ArrayList<>();
@@ -67,5 +69,11 @@ public class TestOneMaxProblem {
 			sb.append("\r\n");
 		}
 		System.out.println(sb.toString());
+	}
+	@Test
+	public void testGA() {
+		Genetic ga = new Genetic(10, 100, 4, SelectionType.ROULETTEWHEEL , 0.5, 0.1);
+		OptimumSolution os = ga.run();
+		System.out.println(os.getSolution());
 	}
 }
