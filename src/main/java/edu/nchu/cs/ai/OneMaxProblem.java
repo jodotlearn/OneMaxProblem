@@ -7,6 +7,7 @@ import edu.nchu.cs.ai.algorithms.OptimumSolution;
 import edu.nchu.cs.ai.algorithms.SearchOptimization;
 import edu.nchu.cs.ai.algorithms.SelectionType;
 import edu.nchu.cs.ai.algorithms.SimulatedAnnealing;
+import edu.nchu.cs.ai.algorithms.TabuSearch;
 
 public class OneMaxProblem {
 
@@ -27,17 +28,30 @@ public class OneMaxProblem {
 		case "SA":
 			so = new SimulatedAnnealing(bitCount, transitTimes);
 			break;
+		case "TS":
+			//TS 100 500 7
+			int memoryLimit;
+			try {
+				memoryLimit = Integer.valueOf(args[3]);
+			}catch(Exception e) {
+				memoryLimit = 7;
+			}
+			so = new TabuSearch(bitCount, transitTimes, memoryLimit);
+			break;
 		case "GA":
+			//GA 100 500 10 TOURNAMENT 0.5 0.1
 			//select type: ROULETTEWHEEL, TOURNAMENT
-			int populationSize = Integer.valueOf(args[3]);
+			int populationSize;
 			SelectionType type;
 			double allowCrossoverRate;
 			double allowMutationRate;
 			try {
+				populationSize = Integer.valueOf(args[3]);
 				type = SelectionType.valueOf(args[4].toUpperCase());
 				allowCrossoverRate = Double.valueOf(args[5]);
 				allowMutationRate = Double.valueOf(args[6]);
 			}catch(Exception e) {
+				populationSize = 10;
 				type = SelectionType.TOURNAMENT;
 				allowCrossoverRate = 0.6;
 				allowMutationRate = 0.1;

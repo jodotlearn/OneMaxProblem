@@ -25,12 +25,12 @@ public class Genetic implements SearchOptimization{
 		this.population = new int[populationSize][bitCount];
 		this.iteration = iteration;
 		this.type = type;
+		this.evaluator = new BinaryBitEvaluator();
 		this.crossoverTransitor = new CrossoverTransitor(bitCount, this.population, allowCrossoverRate);
 		this.mutationTransitor = new MutationTransitor(bitCount, this.population, allowMutationRate);
 	}
 	@Override
 	public OptimumSolution run() {
-		this.init();
 		//1. initialize population
 		this.initializePopulation();
 		int cnt = 0;
@@ -66,14 +66,12 @@ public class Genetic implements SearchOptimization{
 		os.setSolution(StringUtil.toString(this.population[keepIdx]));
 		return os;
 	}
-	private void init() {
-		this.evaluator = new BinaryBitEvaluator();
-	}
 
 	private void initializePopulation(){
+		Random rnd = new Random();
 		for (int i=0;i<this.population.length;i++) {
 			for (int j=0;j<this.bitCount;j++) {
-				this.population[i][j] = (int) Math.round(Math.random());
+				this.population[i][j] = rnd.nextInt(2);
 			}
 		}
 	}
