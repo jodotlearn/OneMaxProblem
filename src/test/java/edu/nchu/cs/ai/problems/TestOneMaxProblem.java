@@ -14,6 +14,7 @@ import edu.nchu.cs.ai.algorithms.HillClimbing;
 import edu.nchu.cs.ai.algorithms.OptimumSolution;
 import edu.nchu.cs.ai.algorithms.SelectionType;
 import edu.nchu.cs.ai.algorithms.SimulatedAnnealing;
+import edu.nchu.cs.ai.algorithms.TabuSearch;
 
 public class TestOneMaxProblem {
 
@@ -72,8 +73,15 @@ public class TestOneMaxProblem {
 	}
 	@Test
 	public void testGA() {
-		Genetic ga = new Genetic(10, 100, 4, SelectionType.ROULETTEWHEEL , 0.5, 0.1);
+//		Genetic ga = new Genetic(100, 500, 10, SelectionType.ROULETTEWHEEL , 0.6, 0.1);
+		Genetic ga = new Genetic(100, 500, 10, SelectionType.TOURNAMENT , 0.6, 0.1);
 		OptimumSolution os = ga.run();
+		System.out.println(os.getSolution());
+	}
+	@Test
+	public void testTS() {
+		TabuSearch ts = new TabuSearch(100, 500, 7);
+		OptimumSolution os = ts.run();
 		System.out.println(os.getSolution());
 	}
 }

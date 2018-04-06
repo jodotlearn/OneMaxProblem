@@ -54,7 +54,6 @@ public class Genetic implements SearchOptimization{
 		int maxValue = 0;
 		int keepIdx = -1;
 		for (int i=0;i<this.population.length;i++) {
-			System.out.println(StringUtil.toString(this.population[i]));
 			objValue = this.evaluator.evaluate(this.population[i]);
 			if (objValue > maxValue) {
 				maxValue = objValue;

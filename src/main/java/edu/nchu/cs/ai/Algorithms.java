@@ -9,7 +9,7 @@ import edu.nchu.cs.ai.algorithms.SelectionType;
 import edu.nchu.cs.ai.algorithms.SimulatedAnnealing;
 import edu.nchu.cs.ai.algorithms.TabuSearch;
 
-public class OneMaxProblem {
+public class Algorithms {
 
 	public static void main(String[] args) {
 		String algorithm = args[0];
